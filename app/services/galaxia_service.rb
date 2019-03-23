@@ -1,7 +1,7 @@
-class Galaxia
+class GalaxiaService
   # require 'pry'
-  require './planeta'
-  require './triangulos'
+  require 'planeta'
+  require 'triangulos'
   include Triangulos
   DIAS = 10*360
 
@@ -12,9 +12,15 @@ class Galaxia
   
     @dias = 1..DIAS+1
   end
+
+  # =====================================
+  def prediccion
+
+  end 
+
   
   # =====================================
-  def sequias
+  def colineales
     optimas_count = 0
     sequias_count = 0
     sol = {x: 0.0, y: 0.0}
@@ -51,11 +57,11 @@ class Galaxia
     # optimas_count puede tener 0.5 de mas correspondientes al 1er punto solamente
     puts "La galaxia sufrirá #{optimas_count.floor} períodos de condiciones óptimas"
     puts "La galaxia sufrirá #{sequias_count.floor} períodos de sequía"
-    optimas_count.floor
+    return { optimas: optimas_count.floor, sequias: sequias_count.floor}
   end 
   
   # =====================================
-  def lluvias
+  def triangular
     lluvias_count = 0
     dentro = [nil]*DIAS
     fer_t = { x: @fer.x_t(0), y: @fer.y_t(0) }
@@ -88,7 +94,7 @@ class Galaxia
     puts "La galaxia sufrirá #{lluvias_count} períodos de lluvia"
     puts "El máximo perímetro será de #{perim[:max].round(2)} km, y ocurrirá el día #{perim[:dia]}"
 
-    lluvias_count
+    return { lluvias: lluvias_count, perimetro: perim }
     # Pry.start(binding)
     # File.open("./dentro.csv", 'w') do |f|
     #   f.write dentro
