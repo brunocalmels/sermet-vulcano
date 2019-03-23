@@ -1,5 +1,4 @@
 class GalaxiaService
-  # require 'pry'
   require 'planeta'
   require 'triangulos'
   include Triangulos
@@ -14,10 +13,38 @@ class GalaxiaService
   end
 
   # =====================================
-  def prediccion
+  def prediccion(n)
+    sol = {x: 0.0, y: 0.0}
+    fer_tn = { x: @fer.x_t(n), y: @fer.y_t(n) }
+    vul_tn = { x: @vul.x_t(n), y: @vul.y_t(n) }
+    bet_tn = { x: @bet.x_t(n), y: @bet.y_t(n) }
+    fer_tn1 = { x: @fer.x_t(n), y: @fer.y_t(n) }
+    vul_tn1 = { x: @vul.x_t(n), y: @vul.y_t(n) }
+    bet_tn1 = { x: @bet.x_t(n), y: @bet.y_t(n) }
+    resultado = {
+                  clima: 'consulte con su meteorologo amigo',
+                  posiciones: {
+                    ferengi:   fer_tn.round(2),
+                    vulcano:   vul_tn.round(2),
+                    betasoide: bet_tn.round(2)
+                  }
+                }
 
+    if cruza_recta([fer_tn, fer_tn1], [vul_tn, vul_tn1], [bet_tn, bet_tn1]) != 0.0
+      if cruza_recta([fer_tn, fer_tn1], [vul_tn, vul_tn1], [sol, sol]) != 0.0
+        resultado[:clima] = 'sequia'
+        return resultado
+      else
+        resultado[:clima] = 'condiciones optimas'
+        return resultado
+      end
+    end
+    if contiene_origen?(fer_tn, vul_tn, bet_tn)
+      resultado[:clima] = 'lluvia'
+      return resultado
+    end
+    resultado
   end 
-
   
   # =====================================
   def colineales
@@ -95,9 +122,6 @@ class GalaxiaService
     puts "El máximo perímetro será de #{perim[:max].round(2)} km, y ocurrirá el día #{perim[:dia]}"
 
     return { lluvias: lluvias_count, perimetro: perim }
-    # Pry.start(binding)
-    # File.open("./dentro.csv", 'w') do |f|
-    #   f.write dentro
-    # end
+
   end
 end
