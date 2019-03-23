@@ -24,9 +24,9 @@ class GalaxiaService
     resultado = {
                   clima: 'consulte con su meteorologo amigo',
                   posiciones: {
-                    ferengi:   fer_tn.round(2),
-                    vulcano:   vul_tn.round(2),
-                    betasoide: bet_tn.round(2)
+                    ferengi:   fer_tn,
+                    vulcano:   vul_tn,
+                    betasoide: bet_tn
                   }
                 }
 
