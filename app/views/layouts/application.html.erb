@@ -10,6 +10,14 @@
   </head>
 
   <body>
+    <!-- Notificaciones -->
+    <% if !notice.nil? %>
+      <p class="alert alert-success"><%= notice %></p>
+    <% end %>
+    <% if !alert.nil? %>
+      <p class="alert alert-danger"><%= alert %></p>
+    <% end %>
+    
     <%= yield %>
   </body>
 </html>
