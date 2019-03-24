@@ -3,7 +3,78 @@
 <h2>Durante los proximos anos, la galaxia tendra</h2>
 <ul>
   <li><%= @sequias %> periodos de sequias</li>
-  <li><%= @lluvias %> periodos de lluvias. El maximo absoluto sera al dia 
-  <%= @perimetro[:dia] %></li>
+  <li><%= @lluvias %> periodos de lluvias. El maximo absoluto sera al dia
+    <%= @perimetro[:dia] %></li>
   <li><%= @optimas %> periodos de condiciones optimas</li>
 </ul>
+
+<div id="d3-test">
+  <h1>Galaxia el día <%= @dia %></h1>
+  <div id=”line-chart”></div>
+  <style>
+    path {
+      fill: none;
+      stroke: #aaa;
+    }
+  </style>
+
+  <svg class='graph' width="1000" height="1000">
+    <g class="axisX" transform="translate(500, 500)" />
+    <g class="axisY" transform="translate(500, 500)" />
+    <circle id="ferengi" transform="translate(500, 500)" />
+    <text id="fer-label" transform="translate(500, 500)">Ferengi</text>
+    <circle id="vulcano" transform="translate(500, 500)" />
+    <text id="vul-label" transform="translate(500, 500)">Vulcano</text>
+    <circle id="betasoide" transform="translate(500, 500)" />
+    <text id="bet-label" transform="translate(500, 500)">Betasoide</text>
+  </svg>
+  <script>
+    const graphHeight = 1000
+    const graphWidth = 1000
+    d3.select('.graph').attr("width", graphWidth).attr("height", graphHeight)
+    d3.select('.axisX').attr("transform", `translate(${graphWidth/2}, ${graphWidth/2})`)
+    d3.select('.axisY').attr("transform", `translate(${graphHeight/2}, ${graphHeight/2})`)
+
+    var scaleX = d3.scaleLinear().domain([-2500, 2500]).range([-graphWidth / 2, graphWidth / 2]);
+    var axisX = d3.axisBottom().scale(scaleX);
+    d3.select('.axisX')
+      .call(axisX);
+    var scaleY = d3.scaleLinear().domain([2500, -2500]).range([-graphHeight / 2, graphHeight / 2]);
+    var axisY = d3.axisLeft().scale(scaleY);
+    d3.select('.axisY')
+      .call(axisY);
+
+    function locate_planetas(ferengi, vulcano, betasoide) {
+      d3.select('#ferengi')
+        .attr('r', 5)
+        .attr('cx', scaleX(ferengi[0]))
+        .attr('cy', scaleY(ferengi[1]))
+      d3.select('#fer-label')
+        .attr('x', scaleX(ferengi[0] + 30))
+        .attr('y', scaleY(ferengi[1] + 30))
+
+      d3.select('#vulcano')
+        .attr('r', 5)
+        .attr('cx', scaleX(vulcano[0]))
+        .attr('cy', scaleY(vulcano[1]))
+      d3.select('#vul-label')
+        .attr('x', scaleX(vulcano[0] + 30))
+        .attr('y', scaleY(vulcano[1] + 30))
+
+      d3.select('#betasoide')
+        .attr('r', 5)
+        .attr('cx', scaleX(betasoide[0]))
+        .attr('cy', scaleY(betasoide[1]))
+      d3.select('#bet-label')
+        .attr('x', scaleX(betasoide[0] + 30))
+        .attr('y', scaleY(betasoide[1] + 30))
+    }
+  </script>
+
+  <%= javascript_tag do %>
+    locate_planetas(
+      [<%= @posiciones[:ferengi][:x] %>, <%= @posiciones[:ferengi][:y] %>],
+      [<%= @posiciones[:vulcano][:x] %>, <%= @posiciones[:vulcano][:y] %>],
+      [<%= @posiciones[:betasoide][:x] %>, <%= @posiciones[:betasoide][:y] %>]
+    )
+  <% end %>

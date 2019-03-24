@@ -22,7 +22,7 @@ class GalaxiaService
     vul_tn1 = { x: @vul.x_t(n), y: @vul.y_t(n) }
     bet_tn1 = { x: @bet.x_t(n), y: @bet.y_t(n) }
     resultado = {
-                  clima: 'consulte con su meteorologo amigo',
+                  clima: 'consulte con su meteorologo vulcano amigo',
                   posiciones: {
                     ferengi:   fer_tn,
                     vulcano:   vul_tn,
