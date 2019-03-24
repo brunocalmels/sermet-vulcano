@@ -22,7 +22,7 @@ class GalaxiaService
     vul_tn1 = { x: @vul.x_t(n), y: @vul.y_t(n) }
     bet_tn1 = { x: @bet.x_t(n), y: @bet.y_t(n) }
     resultado = {
-                  clima: 'consulte con su meteorologo vulcano amigo',
+                  clima: '...sconocido',
                   posiciones: {
                     ferengi:   fer_tn,
                     vulcano:   vul_tn,
@@ -32,10 +32,10 @@ class GalaxiaService
 
     if cruza_recta([fer_tn, fer_tn1], [vul_tn, vul_tn1], [bet_tn, bet_tn1]) != 0.0
       if cruza_recta([fer_tn, fer_tn1], [vul_tn, vul_tn1], [sol, sol]) != 0.0
-        resultado[:clima] = 'sequia'
+        resultado[:clima] = 'sequía'
         return resultado
       else
-        resultado[:clima] = 'condiciones optimas'
+        resultado[:clima] = 'condiciones óptimas'
         return resultado
       end
     end

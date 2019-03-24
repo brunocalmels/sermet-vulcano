@@ -1,15 +1,16 @@
 <h1>Servicio Meteorológico Vulcano</h1>
 
-<h2>Durante los proximos anos, la galaxia tendra</h2>
+<h2>Durante los próximos 10 años, la galaxia tendrá:</h2>
 <ul>
-  <li><%= @sequias %> periodos de sequias</li>
-  <li><%= @lluvias %> periodos de lluvias. El maximo absoluto sera al dia
+  <li><%= @sequias %> períodos de sequías</li>
+  <li><%= @lluvias %> períodos de lluvias. El máximo absoluto será al dia
     <%= @perimetro[:dia] %></li>
-  <li><%= @optimas %> periodos de condiciones optimas</li>
+  <li><%= @optimas %> períodos de condiciones óptimas</li>
 </ul>
 
 <div id="d3-test">
   <h1>Galaxia el día <%= @dia %></h1>
+  <h2>Se espera un clima de <span class="clima"><%= @clima %></span></h2>
   <div id=”line-chart”></div>
   <style>
     path {
@@ -19,15 +20,21 @@
   </style>
 
   <svg class='graph' width="1000" height="1000">
+    <path transform="translate(500, 500)" />
     <g class="axisX" transform="translate(500, 500)" />
     <g class="axisY" transform="translate(500, 500)" />
-    <circle id="ferengi" transform="translate(500, 500)" />
+    <circle id="orb-ferengi" transform="translate(500, 500)" fill='transparent' stroke="black" stroke-width="1" stroke-dasharray="0 6" stroke-linecap="round" fill="transparent"/>/>
+    <circle id="sol" transform="translate(500, 500)" r="15" fill="yellow" />
+    <circle id="ferengi" transform="translate(500, 500)" r="4" fill="darkblue" />
     <text id="fer-label" transform="translate(500, 500)">Ferengi</text>
-    <circle id="vulcano" transform="translate(500, 500)" />
+    <circle id="orb-vulcano" transform="translate(500, 500)" fill='transparent' stroke="black" stroke-width="1" stroke-dasharray="0 6" stroke-linecap="round" fill="transparent"/>/>
+    <circle id="vulcano" transform="translate(500, 500)" r="8" fill="firebrick" />
     <text id="vul-label" transform="translate(500, 500)">Vulcano</text>
-    <circle id="betasoide" transform="translate(500, 500)" />
+    <circle id="orb-betasoide" transform="translate(500, 500)" fill='transparent' stroke="black" stroke-width="1" stroke-dasharray="0 6" stroke-linecap="round" fill="transparent"/>/>
+    <circle id="betasoide" transform="translate(500, 500)" r="6" fill="coral" />
     <text id="bet-label" transform="translate(500, 500)">Betasoide</text>
   </svg>
+
   <script>
     const graphHeight = 1000
     const graphWidth = 1000
@@ -43,10 +50,13 @@
     var axisY = d3.axisLeft().scale(scaleY);
     d3.select('.axisY')
       .call(axisY);
+    d3.select('#orb-ferengi').attr("r", scaleX(500))
+    d3.select('#orb-vulcano').attr("r", scaleX(1000))
+    d3.select('#orb-betasoide').attr("r", scaleX(2000))
 
     function locate_planetas(ferengi, vulcano, betasoide) {
       d3.select('#ferengi')
-        .attr('r', 5)
+        //.attr('r', 5)
         .attr('cx', scaleX(ferengi[0]))
         .attr('cy', scaleY(ferengi[1]))
       d3.select('#fer-label')
@@ -54,7 +64,7 @@
         .attr('y', scaleY(ferengi[1] + 30))
 
       d3.select('#vulcano')
-        .attr('r', 5)
+        //.attr('r', 5)
         .attr('cx', scaleX(vulcano[0]))
         .attr('cy', scaleY(vulcano[1]))
       d3.select('#vul-label')
@@ -62,12 +72,18 @@
         .attr('y', scaleY(vulcano[1] + 30))
 
       d3.select('#betasoide')
-        .attr('r', 5)
+        //.attr('r', 5)
         .attr('cx', scaleX(betasoide[0]))
         .attr('cy', scaleY(betasoide[1]))
       d3.select('#bet-label')
         .attr('x', scaleX(betasoide[0] + 30))
         .attr('y', scaleY(betasoide[1] + 30))
+
+      var pathString = d3.line()
+        .x(function(d) { return scaleX(d[0]); })
+        .y(function(d) { return scaleY(d[1]); })
+      d3.select('path')
+        .attr('d', pathString([ferengi, vulcano, betasoide, ferengi]))
     }
   </script>
 
