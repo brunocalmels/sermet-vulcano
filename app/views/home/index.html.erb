@@ -1,74 +1,115 @@
+<%= image_tag '/images/favicon.png', id: 'planeta', width: 400, height: 400 %>
+
+<div class="titulo">
+  <h1>Servicio Meteorológico </br>
+    <span>Vulcano</span>
+  </h1>
+</div>
+
 <div class="contenedor">
-  <div class="titulo">
-    <h1>Servicio Meteorológico </br>
-      <span>Vulcano</span>
-    </h1>
+  <div id="textos">
+    <div class="resumen">
+      <h2>Durante los próximos 10 años, la galaxia tendrá:</h2>
+      <ul>
+        <li><span class='resultado'><%= @sequias %></span> períodos de sequías.</li>
+        <li><span class='resultado'><%= @lluvias %></span> períodos de lluvias.</li>
+        <li>El máximo absoluto de lluvias el día <span class='resultado'><%= @perimetro[:dia] %></span>.</li>
+        <li><span class='resultado'><%= @optimas %></span> períodos de condiciones óptimas.</li>
+      </ul>
+    </div>
+
+    <div id="info-api">
+      <p class="intro">
+        Pruebe nuestra API REST para integrarla con cualquier servicio. Se aceptan requests ferengis, vulcanas o
+        betasoides. La respuesta se da en formato JSON.
+      </p>
+      <p id="instrucciones">
+        Haga su request a <span>'<%= root_url %>clima?dia=566'</span> para el día que desee y obtenga el pronóstico.
+      </p>
+    </div>
   </div>
 
-  <div class="resumen">
-    <h2>Durante los próximos 10 años, la galaxia tendrá:</h2>
+  <div id="prediccion">
+    <div class="titulo-galaxia">
+      <p>Galaxia el día
+        <%= text_field_tag :dia, @dia, min: 0, max: 10000 %>
+        <%= link_to 'Cambiar', '/', id: 'btn-cambiar', class: 'btn' %>
+      </p>
+    </div>
+    <h3>Se espera un clima de <span class="clima"><%= @clima %></span>.</h3>
+    <div id=”line-chart”></div>
+    <style>
+      path {
+        fill: none;
+        stroke: #aaa;
+      }
+    </style>
+
+    <svg class='graph' width="1000" height="1000">
+      <path transform="translate(500, 500)" />
+      <g class="axisX" transform="translate(500, 500)" />
+      <g class="axisY" transform="translate(500, 500)" />
+      <circle id="orb-ferengi" transform="translate(500, 500)" fill='transparent' stroke="black" stroke-width="1"
+        stroke-dasharray="0 6" stroke-linecap="round" fill="transparent" />/>
+      <circle id="sol" transform="translate(500, 500)" r="15" fill="yellow" />
+      <text id="sol-label" transform="translate(500, 500)">Sol</text>
+      <circle id="ferengi" transform="translate(500, 500)" r="4" fill="darkblue" />
+      <text id="fer-label" transform="translate(500, 500)">Ferengi</text>
+      <circle id="orb-vulcano" transform="translate(500, 500)" fill='transparent' stroke="black" stroke-width="1"
+        stroke-dasharray="0 6" stroke-linecap="round" fill="transparent" />/>
+      <circle id="vulcano" transform="translate(500, 500)" r="8" fill="firebrick" />
+      <text id="vul-label" transform="translate(500, 500)">Vulcano</text>
+      <circle id="orb-betasoide" transform="translate(500, 500)" fill='transparent' stroke="black" stroke-width="1"
+        stroke-dasharray="0 6" stroke-linecap="round" fill="transparent" />/>
+      <circle id="betasoide" transform="translate(500, 500)" r="6" fill="coral" />
+      <text id="bet-label" transform="translate(500, 500)">Betasoide</text>
+    </svg>
+  </div>
+</div>
+
+<div id="footer">
+  <div id="aclaraciones">
+    <p>
+      Las siguientes aclaraciones deben tenerse en cuenta, acerca de este Servicio Meteorológico:
+    </p>
     <ul>
-      <li><span class='resultado'><%= @sequias %></span> períodos de sequías.</li>
-      <li><span class='resultado'><%= @lluvias %></span> períodos de lluvias.</li>
-      <li>El máximo absoluto de lluvias el día <span class='resultado'><%= @perimetro[:dia] %></span>.</li>
-      <li><span class='resultado'><%= @optimas %></span> períodos de condiciones óptimas.</li>
+      <li>El <span>año</span> utilizado es el año <span>ferengi</span>, que consta de exactamente de 360 días (el triple
+        que un año
+        betasoide y 5 veces el vulcano). Los años de nuestra galaxia tienen todos la misma duración, no existiendo los
+        años bisiestos. Porque ¿qué es un año bisiesto, después de todo?</li>
+      <li>Se toma como <span>día 0</span> al día de la última Gran Sequía, cuando los 3 planetas que integran nuestra
+        galaxia se
+        alinearon con el Sol.</li>
+      <li>El gráfico de la localización de los planetas para cada día se da a las <span> 0 horas</span> del
+        correspondiente día.</li>
     </ul>
   </div>
-
-<div id="d3-test">
-  <div class="titulo-galaxia">
-    <p>Galaxia el día
-      <%= text_field_tag :dia, @dia, min: 0, max: 10000 %>
-      <%= link_to 'Cambiar', '/', id: 'btn-cambiar', class: 'btn' %>
-    </p>
+  <div id="firma">
+    <p>Hecho con ayuda del terrícola </br><%= link_to 'Bruno Calmels', 'https://www.linkedin.com/in/bruno-calmels/'%></p>
   </div>
-  <h3>Se espera un clima de <span class="clima"><%= @clima %></span></h3>
-  <div id=”line-chart”></div>
-  <style>
-    path {
-      fill: none;
-      stroke: #aaa;
-    }
-  </style>
-
-  <svg class='graph' width="1000" height="1000">
-    <path transform="translate(500, 500)" />
-    <g class="axisX" transform="translate(500, 500)" />
-    <g class="axisY" transform="translate(500, 500)" />
-    <circle id="orb-ferengi" transform="translate(500, 500)" fill='transparent' stroke="black" stroke-width="1" stroke-dasharray="0 6" stroke-linecap="round" fill="transparent"/>/>
-    <circle id="sol" transform="translate(500, 500)" r="15" fill="yellow" />
-    <circle id="ferengi" transform="translate(500, 500)" r="4" fill="darkblue" />
-    <text id="fer-label" transform="translate(500, 500)">Ferengi</text>
-    <circle id="orb-vulcano" transform="translate(500, 500)" fill='transparent' stroke="black" stroke-width="1" stroke-dasharray="0 6" stroke-linecap="round" fill="transparent"/>/>
-    <circle id="vulcano" transform="translate(500, 500)" r="8" fill="firebrick" />
-    <text id="vul-label" transform="translate(500, 500)">Vulcano</text>
-    <circle id="orb-betasoide" transform="translate(500, 500)" fill='transparent' stroke="black" stroke-width="1" stroke-dasharray="0 6" stroke-linecap="round" fill="transparent"/>/>
-    <circle id="betasoide" transform="translate(500, 500)" r="6" fill="coral" />
-    <text id="bet-label" transform="translate(500, 500)">Betasoide</text>
-  </svg>
 </div>
 
 <script>
-  $(function(){
-    $('#btn-cambiar').click(function(){
+  $(function () {
+    $('#btn-cambiar').click(function () {
       window.location = '/' + $('#dia').val()
     })
   })
 </script>
 
 <script>
-  $(function(){
+  $(function () {
     $("#dia").keyup(function (e) {
       if (e.keyCode == 13) {
         window.location = '/' + $('#dia').val()
       }
     });
-})
+  })
 </script>
 
 <script>
   const vpWidth = $(window).width();
-  maxWidth = Math.min(vpWidth/2.0, 600)
+  maxWidth = Math.min(vpWidth / 2.0, 600)
   const graphHeight = maxWidth
   const graphWidth = maxWidth
   d3.select('.graph').attr("width", graphWidth).attr("height", graphHeight)
@@ -77,6 +118,7 @@
   d3.select('#sol').attr("transform", `translate(${graphHeight/2}, ${graphHeight/2})`)
   d3.select('#ferengi').attr("transform", `translate(${graphHeight/2}, ${graphHeight/2})`)
   d3.select('#fer-label').attr("transform", `translate(${graphHeight/2}, ${graphHeight/2})`)
+  d3.select('#sol-label').attr("transform", `translate(${graphHeight/2}, ${graphHeight/2})`)
   d3.select('#orb-ferengi').attr("transform", `translate(${graphHeight/2}, ${graphHeight/2})`)
   d3.select('#vulcano').attr("transform", `translate(${graphHeight/2}, ${graphHeight/2})`)
   d3.select('#vul-label').attr("transform", `translate(${graphHeight/2}, ${graphHeight/2})`)
@@ -96,6 +138,10 @@
   d3.select('#orb-ferengi').attr("r", scaleX(500))
   d3.select('#orb-vulcano').attr("r", scaleX(1000))
   d3.select('#orb-betasoide').attr("r", scaleX(2000))
+
+  d3.select('#sol-label')
+    .attr('x', scaleX(80))
+    .attr('y', scaleY(80))
 
   function locate_planetas(ferengi, vulcano, betasoide) {
     d3.select('#ferengi')
@@ -123,8 +169,12 @@
       .attr('y', scaleY(betasoide[1] + 30))
 
     var pathString = d3.line()
-      .x(function(d) { return scaleX(d[0]); })
-      .y(function(d) { return scaleY(d[1]); })
+      .x(function (d) {
+        return scaleX(d[0]);
+      })
+      .y(function (d) {
+        return scaleY(d[1]);
+      })
     d3.select('path')
       .attr('d', pathString([ferengi, vulcano, betasoide, ferengi]))
       .attr("transform", `translate(${graphHeight/2}, ${graphHeight/2})`)
@@ -132,9 +182,9 @@
 </script>
 
 <%= javascript_tag do %>
-  locate_planetas(
-    [<%= @posiciones[:ferengi][:x] %>, <%= @posiciones[:ferengi][:y] %>],
-    [<%= @posiciones[:vulcano][:x] %>, <%= @posiciones[:vulcano][:y] %>],
-    [<%= @posiciones[:betasoide][:x] %>, <%= @posiciones[:betasoide][:y] %>]
-  )
+locate_planetas(
+[<%= @posiciones[:ferengi][:x] %>, <%= @posiciones[:ferengi][:y] %>],
+[<%= @posiciones[:vulcano][:x] %>, <%= @posiciones[:vulcano][:y] %>],
+[<%= @posiciones[:betasoide][:x] %>, <%= @posiciones[:betasoide][:y] %>]
+)
 <% end %>
