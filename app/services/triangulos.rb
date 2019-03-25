@@ -26,6 +26,9 @@ module Triangulos
 
     y_0_ideal = y_sobre_recta(a[0], b[0], c0[:x])
     y_1_ideal = y_sobre_recta(a[1], b[1], c1[:x])
+    # Para evitar sumar por cambio de signo de pendiente entre a y b (y ideal muy grande)
+    return 0.0 if y_0_ideal > Math::sqrt(c0[:x]**2 + c0[:y]**2)
+    return 0.0 if y_1_ideal > Math::sqrt(c0[:x]**2 + c0[:y]**2)
 
     raise ArgumentError.new("Recta vertical") if y_1_ideal == Float::INFINITY
 
@@ -35,7 +38,7 @@ module Triangulos
     
     return 0.5 if producto == 0.0 
     return 1.0 if producto < 0.0 
-    return 0
+    return 0.0
   end
 
   # param a(Hash {x: 1,  y: 1}): Punto A del segmento

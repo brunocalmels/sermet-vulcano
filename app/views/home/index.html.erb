@@ -4,17 +4,22 @@
   <h1>Servicio Meteorológico </br>
     <span>Vulcano</span>
   </h1>
+  <p>Pronósticos para la próxima Era Húmeda</p>
 </div>
 
 <div class="contenedor">
   <div id="textos">
     <div class="resumen">
       <h2>Durante los próximos 10 años, la galaxia tendrá:</h2>
-      <ul>
+      <ul class="principal">
         <li><span class='resultado'><%= @sequias %></span> períodos de sequías.</li>
         <li><span class='resultado'><%= @lluvias %></span> períodos de lluvias.</li>
         <li>El máximo absoluto de lluvias el día <span class='resultado'><%= @perimetro[:dia] %></span>.</li>
         <li><span class='resultado'><%= @optimas %></span> períodos de condiciones óptimas.</li>
+      </ul>
+      <ul class="secundario">
+        <li>Las próximas condiciones óptimas se esperan para el día 18.</li>
+        <li>Las próximas lluvias comenzarán el día 23.</li>
       </ul>
     </div>
 
@@ -24,7 +29,7 @@
         betasoides. La respuesta se da en formato JSON.
       </p>
       <p id="instrucciones">
-        Haga su request a <span>'<%= root_url %>clima?dia=566'</span> para el día que desee y obtenga el pronóstico.
+        Haga su request a <span>'<%= root_url %>clima?dia=566'</span> (por ejemplo, para el día 566) para el día que desee y obtenga el pronóstico.
       </p>
     </div>
   </div>
@@ -80,8 +85,8 @@
       <li>Se toma como <span>día 0</span> al día de la última Gran Sequía, cuando los 3 planetas que integran nuestra
         galaxia se
         alinearon con el Sol.</li>
-      <li>El gráfico de la localización de los planetas para cada día se da a las <span> 0 horas</span> del
-        correspondiente día.</li>
+      <li>El gráfico de la localización de los planetas para cada día se da para las <span> 0 horas</span> del
+        correspondiente día. A raíz de esto, es posible que durante el día haya un estado instantáneo de, por ejemplo, condiciones óptimas, o de sequía. En caso de no darse exactamente a las 0 horas, no se lo informará.</li>
     </ul>
   </div>
   <div id="firma">

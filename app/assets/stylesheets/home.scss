@@ -30,6 +30,13 @@ body {
       font-size: 40pt;
     }
   }
+
+  p {
+    color: $amarillo1;
+    text-align: right;
+    font-style: italic;
+    font-size: 11pt;
+  }
 }
 
 .contenedor {
@@ -69,6 +76,17 @@ img#planeta {
 
   @media (max-width: 1000px) {
     max-width: 75vw;
+  }
+
+  ul.principal {}
+
+  ul.secundario {
+    margin-top: 20px;
+
+    li {
+      font-size: 13pt;
+      color: #666;
+    }
   }
 }
 
