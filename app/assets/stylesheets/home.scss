@@ -169,8 +169,10 @@ svg {
   }
 
   #instrucciones {
-    span {
+    a {
       font-weight: bold;
+      color: #333;
+      background-color: $rojo1trans;
     }
   }
 }
